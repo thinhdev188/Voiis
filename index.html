@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Phát âm thanh khi bấm ảnh</title>
+  <style>
+    body {
+      text-align: center;
+      background-color: #f0f0f0;
+      padding-top: 50px;
+    }
+    img {
+      width: 300px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Bấm vào voi để nghe âm thanh</h2>
+
+  <img src="https://raw.githubusercontent.com/thinhdev188/Voiis/main/voi.png" alt="Voi" onclick="playSound()">
+
+  <audio id="sound" src="https://raw.githubusercontent.com/thinhdev188/Voiis/main/musicvoiis.m4a"></audio>
+
+  <script>
+    function playSound() {
+      const audio = document.getElementById("sound");
+      audio.currentTime = 0; // phát lại từ đầu mỗi lần click
+      audio.play();
+    }
+  </script>
+
+</body>
+</html>
