@@ -10,23 +10,18 @@
       padding-top: 300px;
     }
     img {
-      width: 1000px;
+      width: 0px;
       cursor: pointer;
       transition: transform 0.2s;
     }
     img:hover {
-      transform: scale(1.05);
+      transform: scale(5.55);
     }
   </style>
 </head>
 <body>
-
-  <h2>Bấm vào voi để nghe âm thanh</h2>
-
   <img src="https://raw.githubusercontent.com/thinhdev188/Voiis/main/voi.png" alt="Voi" onclick="playSound()">
-
   <audio id="sound" src="https://raw.githubusercontent.com/thinhdev188/Voiis/main/musicvoiis.m4a"></audio>
-
   <script>
     function playSound() {
       const audio = document.getElementById("sound");
