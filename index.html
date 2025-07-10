@@ -10,12 +10,12 @@
       padding-top: 300px;
     }
     img {
-      width: 0px;
+      width: 80px; /* Hiển thị hình ảnh ban đầu */
       cursor: pointer;
       transition: transform 0.2s;
     }
     img:hover {
-      transform: scale(5.55);
+      transform: scale(5.55); /* Phóng to khi hover */
     }
   </style>
 </head>
@@ -40,7 +40,6 @@
       audio.currentTime = segment.start;
       audio.play();
 
-      // Nếu có thời điểm kết thúc, dừng âm thanh đúng lúc
       if (segment.end !== null) {
         const duration = (segment.end - segment.start) * 1000;
         setTimeout(() => {
