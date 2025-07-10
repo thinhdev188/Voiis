@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Phát âm thanh khi bấm ảnh</title>
+  <title>Phát âm thanh ngẫu nhiên</title>
   <style>
     body {
       text-align: center;
@@ -20,13 +20,34 @@
   </style>
 </head>
 <body>
-  <img src="https://raw.githubusercontent.com/thinhdev188/Voiis/main/voi.png" alt="Voi" onclick="playSound()">
+
+  <img src="https://raw.githubusercontent.com/thinhdev188/Voiis/main/voi.png" alt="Voi" onclick="playRandomSegment()">
   <audio id="sound" src="https://raw.githubusercontent.com/thinhdev188/Voiis/main/musicvoiis.m4a"></audio>
+
   <script>
-    function playSound() {
-      const audio = document.getElementById("sound");
-      audio.currentTime = 0; // phát lại từ đầu mỗi lần click
+    const audio = document.getElementById("sound");
+
+    const segments = [
+      { start: 0, end: 3 },
+      { start: 4, end: 7 },
+      { start: 7, end: 11 },
+      { start: 12, end: null } // null = phát đến hết
+    ];
+
+    function playRandomSegment() {
+      const segment = segments[Math.floor(Math.random() * segments.length)];
+
+      audio.currentTime = segment.start;
       audio.play();
+
+      // Nếu có thời điểm kết thúc, dừng âm thanh đúng lúc
+      if (segment.end !== null) {
+        const duration = (segment.end - segment.start) * 1000;
+        setTimeout(() => {
+          audio.pause();
+          audio.currentTime = 0;
+        }, duration);
+      }
     }
   </script>
 
