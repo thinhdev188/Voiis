@@ -2,50 +2,74 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Phát âm thanh ngẫu nhiên</title>
+  <title>Voi ít</title>
   <style>
     body {
       text-align: center;
       background-color: #f0f0f0;
       padding-top: 300px;
     }
+
     img {
-      width: 1000px; /* Hiển thị hình ảnh ban đầu */
+      width: 1000px;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: transform 0.2s ease;
     }
-    img:hover {
-      transform: scale(0); /* Phóng to khi hover */
+
+    /* Khi đang được click và phát nhạc */
+    .active {
+      animation: shake 0.5s infinite;
+      transform: scale(0.95); /* Thu nhỏ nhẹ */
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0) rotate(0deg) scale(0.95); }
+      20% { transform: translateX(-10px) rotate(-2deg) scale(0.95); }
+      40% { transform: translateX(10px) rotate(2deg) scale(0.95); }
+      60% { transform: translateX(-10px) rotate(-2deg) scale(0.95); }
+      80% { transform: translateX(10px) rotate(2deg) scale(0.95); }
+      100% { transform: translateX(0) rotate(0deg) scale(0.95); }
     }
   </style>
 </head>
 <body>
 
-  <img src="https://raw.githubusercontent.com/thinhdev188/Voiis/main/voi.png" alt="Voi" onclick="playRandomSegment()">
+  <img id="elephant" src="https://raw.githubusercontent.com/thinhdev188/Voiis/main/voi.png" alt="Voi" onclick="playRandomSegment()">
   <audio id="sound" src="https://raw.githubusercontent.com/thinhdev188/Voiis/main/musicvoiis.m4a"></audio>
 
   <script>
     const audio = document.getElementById("sound");
+    const elephant = document.getElementById("elephant");
 
     const segments = [
       { start: 0, end: 3 },
       { start: 4, end: 7 },
       { start: 7, end: 11 },
-      { start: 12, end: null } // null = phát đến hết
+      { start: 12, end: null } // phát đến hết
     ];
 
     function playRandomSegment() {
-      const segment = segments[Math.floor(Math.random() * segments.length)];
+      if (!audio.paused) return; // tránh phát chồng
 
+      const segment = segments[Math.floor(Math.random() * segments.length)];
       audio.currentTime = segment.start;
       audio.play();
+
+      // Thêm hiệu ứng rung và thu nhỏ
+      elephant.classList.add("active");
 
       if (segment.end !== null) {
         const duration = (segment.end - segment.start) * 1000;
         setTimeout(() => {
           audio.pause();
           audio.currentTime = 0;
+          elephant.classList.remove("active"); // gỡ hiệu ứng
         }, duration);
+      } else {
+        // Nếu không có end, thì xóa hiệu ứng khi phát xong
+        audio.onended = () => {
+          elephant.classList.remove("active");
+        };
       }
     }
   </script>
