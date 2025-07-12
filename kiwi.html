@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Kiwi vui</title>
+  <style>
+    body {
+      text-align: center;
+      background-color: #f0f0f0;
+      padding-top: 100px;
+      font-family: Arial, sans-serif;
+    }
+
+    img {
+      width: 600px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .active {
+      animation: shake 0.5s infinite;
+      transform: scale(0.95);
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0) rotate(0deg) scale(0.95); }
+      20% { transform: translateX(-10px) rotate(-2deg) scale(0.95); }
+      40% { transform: translateX(10px) rotate(2deg) scale(0.95); }
+      60% { transform: translateX(-10px) rotate(-2deg) scale(0.95); }
+      80% { transform: translateX(10px) rotate(2deg) scale(0.95); }
+      100% { transform: translateX(0) rotate(0deg) scale(0.95); }
+    }
+
+    .switch-btn {
+      margin-top: 40px;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #FF9800;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .switch-btn:hover {
+      background-color: #e68900;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🥝 Kiwi vui</h1>
+  <img id="character" src="kiwi.png" alt="Kiwi" onclick="playRandomSegment()">
+  <br>
+  <button class="switch-btn" onclick="window.location.href='index.html'">Chuyển sang Voi 🐘</button>
+
+  <audio id="sound" src="kiwi.mp3"></audio>
+
+  <script>
+    const audio = document.getElementById("sound");
+    const character = document.getElementById("character");
+
+    const segments = [
+      { start: 0, end: 1},
+      { start: 1, end: 2},
+      { start: 3, end: 7},
+      { start: 11, end: null }
+    ];
+
+    function playRandomSegment() {
+      if (!audio.paused) return;
+
+      const segment = segments[Math.floor(Math.random() * segments.length)];
+      audio.currentTime = segment.start;
+      audio.play();
+      character.classList.add("active");
+
+      if (segment.end !== null) {
+        const duration = (segment.end - segment.start) * 1000;
+        setTimeout(() => {
+          audio.pause();
+          audio.currentTime = 0;
+          character.classList.remove("active");
+        }, duration);
+      } else {
+        audio.onended = () => {
+          character.classList.remove("active");
+        };
+      }
+    }
+  </script>
+
+</body>
+</html>
