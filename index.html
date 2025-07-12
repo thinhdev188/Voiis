@@ -7,19 +7,19 @@
     body {
       text-align: center;
       background-color: #f0f0f0;
-      padding-top: 300px;
+      padding-top: 100px;
+      font-family: Arial, sans-serif;
     }
 
     img {
-      width: 1000px;
+      width: 600px;
       cursor: pointer;
       transition: transform 0.2s ease;
     }
 
-    /* Khi đang được click và phát nhạc */
     .active {
       animation: shake 0.5s infinite;
-      transform: scale(0.95); /* Thu nhỏ nhẹ */
+      transform: scale(0.95);
     }
 
     @keyframes shake {
@@ -30,45 +30,62 @@
       80% { transform: translateX(10px) rotate(2deg) scale(0.95); }
       100% { transform: translateX(0) rotate(0deg) scale(0.95); }
     }
+
+    .switch-btn {
+      margin-top: 40px;
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .switch-btn:hover {
+      background-color: #45a049;
+    }
   </style>
 </head>
 <body>
 
-  <img id="elephant" src="https://raw.githubusercontent.com/thinhdev188/Voiis/main/voi.png" alt="Voi" onclick="playRandomSegment()">
-  <audio id="sound" src="https://raw.githubusercontent.com/thinhdev188/Voiis/main/musicvoiis.m4a"></audio>
+  <h1>🐘 Voi ít</h1>
+  <img id="character" src="voi.png" alt="Voi" onclick="playRandomSegment()">
+  <br>
+  <button class="switch-btn" onclick="window.location.href='kiwi.html'">Chuyển sang Kiwi 🥝</button>
+
+  <audio id="sound" src="musicvoiis.m4a"></audio>
 
   <script>
     const audio = document.getElementById("sound");
-    const elephant = document.getElementById("elephant");
+    const character = document.getElementById("character");
 
     const segments = [
       { start: 0, end: 3 },
       { start: 4, end: 7 },
       { start: 7, end: 11 },
-      { start: 12, end: null } // phát đến hết
+      { start: 12, end: null }
     ];
 
     function playRandomSegment() {
-      if (!audio.paused) return; // tránh phát chồng
+      if (!audio.paused) return;
 
       const segment = segments[Math.floor(Math.random() * segments.length)];
       audio.currentTime = segment.start;
       audio.play();
-
-      // Thêm hiệu ứng rung và thu nhỏ
-      elephant.classList.add("active");
+      character.classList.add("active");
 
       if (segment.end !== null) {
         const duration = (segment.end - segment.start) * 1000;
         setTimeout(() => {
           audio.pause();
           audio.currentTime = 0;
-          elephant.classList.remove("active"); // gỡ hiệu ứng
+          character.classList.remove("active");
         }, duration);
       } else {
-        // Nếu không có end, thì xóa hiệu ứng khi phát xong
         audio.onended = () => {
-          elephant.classList.remove("active");
+          character.classList.remove("active");
         };
       }
     }
